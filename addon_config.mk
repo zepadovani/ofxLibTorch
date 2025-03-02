@@ -82,21 +82,30 @@ common:
     
     
 linux64:
-    ADDON_PKG_CONFIG_LIBRARIES = torch
-    ADDON_PKG_CONFIG_INCLUDES  = torch
-    
-    INCLUDE := -isystem $(LIBTORCH)/include -isystem $(LIBTORCH)/include/torch/csrc/api/include
-    
-    ADDON_INCLUDES += $(INCLUDE)
+    ADDON_PKG_CONFIG_LIBRARIES = cuda torch    ### NAO COMPILOU SEM ISSO (cuda nao parece estar interferindo muito)
+    # ADDON_PKG_CONFIG_INCLUDES  = torch ### NAO PARECE SER NECESSARIO
+    # ADDON_LIBS += 
+ 
     # linux only, any library that should be included in the project using
     # pkg-config
     # ADDON_PKG_CONFIG_LIBRARIES =
-    CXX := g++
-    CXXFLAGS := -std=c++17 -Wall -Wextra -O2
+
+    # CXX := g++
+    # CXXFLAGS := -std=c++17 -Wall -Wextra -O2
     LIBTORCH := /home/padovani/data/libtorch
+    INCLUDE := -isystem $(LIBTORCH)/include -isystem $(LIBTORCH)/include/torch/csrc/api/include
+    ADDON_INCLUDES += $(INCLUDE)
+
+    #     ADDON_LIBS =
+    ADDON_LIBS += $(LIBTORCH)/lib/libtorch.so
+    ADDON_LIBS += $(LIBTORCH)/lib/libtorch_cpu.so
+    ADDON_LIBS += $(LIBTORCH)/lib/libtorch_cuda.so
+    # ADDON_LIBS += $(LIBTORCH)/lib/libtorch_linalg.so
+    ADDON_LIBS += $(LIBTORCH)/lib/libc10.so
+    ADDON_LIBS += $(LIBTORCH)/lib/libc10_cuda.so
+    ADDON_LIBS += $(LIBTORCH)/lib/libcaffe2_nvrtc.so
     
-    
-    LIBRARIES  += -L/home/padovani/data/libtorch/lib -ltorch -ltorch_cpu -lc10 -Wl,-rpath,/home/padovani/data/libtorch
+    # LIBRARIES  += -L/home/padovani/data/libtorch/lib -ltorch -ltorch_cpu -lc10 -Wl,-rpath,/home/padovani/data/libtorch
 
   
     
@@ -110,14 +119,7 @@ linux64:
 #     ADDON_INCLUDES += src
 #     ADDON_INCLUDES += $(INCLUDE)/include 
 #     ADDON_INCLUDES += $(INCLUDE)/include/torch/csrc/api/include
-#     ADDON_LIBS =
-#     ADDON_LIBS += $(LIBTORCH)/lib/libtorch.so
-#     ADDON_LIBS += $(LIBTORCH)/lib/libtorch_cpu.so
-#     ADDON_LIBS += $(LIBTORCH)/lib/libtorch_cuda.so
-#     ADDON_LIBS += $(LIBTORCH)/lib/libtorch_linalg.so
-#     ADDON_LIBS += $(LIBTORCH)/lib/libc10.so
-#     ADDON_LIBS += $(LIBTORCH)/lib/libc10_cuda.so
-#     ADDON_LIBS += $(LIBTORCH)/lib/libcaffe2_nvrtc.so
+
 
     
 vs:
